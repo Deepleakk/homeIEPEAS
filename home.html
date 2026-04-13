@@ -89,7 +89,7 @@
             font-size: 56px;
             letter-spacing: 2px;
             margin-bottom: 16px;
-            color: white;  /* warna putih solid, tidak gradien */
+            color: white;
             text-shadow: 0 0 8px rgba(0,0,0,0.5);
         }
         .hero p {
@@ -177,8 +177,46 @@
             text-align: center;
             font-size: 0.75rem;
             opacity: 0.7;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             letter-spacing: 0.3px;
+        }
+
+        /* Peraturan Wajib Marga */
+        .peraturan-container {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 25px 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+        .peraturan-container h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #a78bfa;
+        }
+        .peraturan-list {
+            list-style: none;
+            padding-left: 10px;
+        }
+        .peraturan-list li {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            position: relative;
+            padding-left: 24px;
+        }
+        .peraturan-list li::before {
+            content: "•";
+            position: absolute;
+            left: 6px;
+            color: #60a5fa;
+            font-size: 1.2rem;
+        }
+        .peraturan-list li strong {
+            color: #facc15; /* warna kuning untuk tebal */
+            font-weight: 700;
         }
 
         .tentang-section {
@@ -216,14 +254,17 @@
             .hero h1 {
                 font-size: 36px;
             }
-            .keunggulan h2, .tentang-section h2 {
+            .keunggulan h2, .tentang-section h2, .peraturan-container h3 {
                 font-size: 1.5rem;
             }
             .feature-list {
                 padding: 20px;
             }
-            .tentang-content {
+            .peraturan-container {
                 padding: 20px;
+            }
+            .peraturan-list li {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -266,6 +307,31 @@
             "Kami menjunjung nilai kesopanan, etika, dan adab, untuk kamu yang mau join diharapkan untuk mematuhi peraturan yang ada"
         </div>
 
+        <!-- Peraturan Wajib Marga -->
+        <div class="peraturan-container">
+            <h3>📜 Peraturan Wajib Marga</h3>
+            <ul class="peraturan-list">
+                <li>no pedofil, mau hal apapun bercanda dll, dilarang keras</li>
+                <li>No Toxic</li>
+                <li>Kirim Foto minimal sekali lihat kecuali PENTING!!</li>
+                <li>Harus Toleransi</li>
+                <li>Ga boleh ada yang merendahkan</li>
+                <li>Ga boleh membeda-bedakan Agama dan Suku</li>
+                <li>Ga boleh kirim stiker Jomok/18+</li>
+                <li>Usia 13 tahun+</li>
+                <li>No buat ricuh sama marga lain!!!</li>
+                <li>Nomor admin dan member lainnya dilarang disebar ya!!!</li>
+                <li>Wajib pakai nama tiktok IEPEAS</li>
+                <li>Dilarang Spam/Kirim *LINK GA JELAS*</li>
+                <li>Setiap mau upload video gunakan #margaiepeas</li>
+                <li>Dilarang buat konten berkesan menjatuhkan guru</li>
+                <li>Gak intro kick</li>
+                <li><strong>*WAJIB BUAT KONTEN EDUKASI*</strong></li>
+                <li><strong>*WAJIB BUAT KONTEN PESAWAT, KAPAL, DAN ASTRONOMI*</strong></li>
+                <li><strong>*ingat perintah owner itu mutlak*</strong></li>
+            </ul>
+        </div>
+
         <div class="tentang-section">
             <h2>📖 Tentang Kami</h2>
             <div class="tentang-content">
@@ -276,7 +342,7 @@
             </div>
         </div>
 
-        <div class="credit">©IEPEAS</div>
+        <div class="credit">© IEPEAS</div>
     </div>
 
     <script>
