@@ -16,6 +16,7 @@
             background: linear-gradient(145deg, #0a0f1c 0%, #0f172a 40%, #1e293b 100%);
             font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
             color: #e2e8f0;
+            overflow-x: hidden;
         }
 
         .menu-container {
@@ -91,6 +92,12 @@
             margin-bottom: 16px;
             color: white;
             text-shadow: 0 0 8px rgba(0,0,0,0.5);
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.1s;
+        }
+        .hero h1:active {
+            transform: scale(0.98);
         }
         .hero p {
             font-size: 1.2rem;
@@ -181,7 +188,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* Peraturan Wajib Marga */
         .peraturan-container {
             background: rgba(30, 41, 59, 0.4);
             backdrop-filter: blur(4px);
@@ -215,7 +221,7 @@
             font-size: 1.2rem;
         }
         .peraturan-list li strong {
-            color: #facc15; /* warna kuning untuk tebal */
+            color: #facc15;
             font-weight: 700;
         }
 
@@ -250,6 +256,27 @@
             margin-top: 60px;
         }
 
+        /* Easter egg: partikel jatuh */
+        .falling-emoji {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 28px;
+            user-select: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         @media (max-width: 650px) {
             .hero h1 {
                 font-size: 36px;
@@ -266,6 +293,9 @@
             .peraturan-list li {
                 font-size: 0.8rem;
             }
+            .falling-emoji {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
@@ -280,7 +310,7 @@
 
     <div class="container">
         <div class="hero">
-            <h1>🌸 IEPEAS 🌸</h1>
+            <h1 id="iepeasTitle">🌸 IEPEAS 🌸</h1>
             <p>Marga Komunitas Solid & Positif</p>
             <div class="singkatan">
                 <span>✈️ IEP : International Education Plane</span>
@@ -307,7 +337,6 @@
             "Kami menjunjung nilai kesopanan, etika, dan adab, untuk kamu yang mau join diharapkan untuk mematuhi peraturan yang ada"
         </div>
 
-        <!-- Peraturan Wajib Marga -->
         <div class="peraturan-container">
             <h3>📜 Peraturan Wajib Marga</h3>
             <ul class="peraturan-list">
@@ -342,10 +371,50 @@
             </div>
         </div>
 
-        <div class="credit">© IEPEAS</div>
+        <div class="credit">©IEPEAS</div>
     </div>
 
     <script>
+        // Easter egg: klik pada tulisan IEPEAS muncul pesawat dan bintang jatuh
+        const title = document.getElementById('iepeasTitle');
+        
+        function createFallingEmoji(emoji, x, y) {
+            const el = document.createElement('div');
+            el.className = 'falling-emoji';
+            el.textContent = emoji;
+            // Posisi acak di sekitar klik (horizontal ± 30px, vertikal di titik klik)
+            const offsetX = (Math.random() - 0.5) * 60;
+            el.style.left = (x + offsetX) + 'px';
+            el.style.top = y + 'px';
+            // Durasi jatuh acak antara 1.5s - 3s
+            const duration = 1.5 + Math.random() * 1.5;
+            el.style.animationDuration = duration + 's';
+            document.body.appendChild(el);
+            // Hapus setelah animasi selesai
+            setTimeout(() => {
+                el.remove();
+            }, duration * 1000);
+        }
+
+        title.addEventListener('click', (e) => {
+            const rect = title.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Jumlah partikel (10-15)
+            const count = 12 + Math.floor(Math.random() * 8);
+            const emojis = ['✈️', '🌟', '⭐', '🚀', '🛸', '💫'];
+            
+            for (let i = 0; i < count; i++) {
+                const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                // Spread horizontal lebih luas
+                const xOffset = (Math.random() - 0.5) * 120;
+                const yOffset = (Math.random() - 0.5) * 30;
+                createFallingEmoji(randomEmoji, centerX + xOffset, centerY + yOffset);
+            }
+        });
+
+        // Menu dropdown toggle (sama seperti sebelumnya)
         const menuToggle = document.getElementById('menuToggle');
         const menuDropdown = document.getElementById('menuDropdown');
         menuToggle.addEventListener('click', (e) => {
