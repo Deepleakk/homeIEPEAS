@@ -24,6 +24,61 @@
             color: #f0f0f0;
         }
 
+        /* Menu titik tiga */
+        .menu-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+        .menu-toggle {
+            font-size: 32px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            backdrop-filter: blur(4px);
+            transition: 0.2s;
+        }
+        .menu-toggle:hover {
+            background: #d45a2b;
+        }
+        .menu-dropdown {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 10px 0;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .menu-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .menu-dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .menu-dropdown a:hover {
+            background: #d45a2b;
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -187,56 +242,80 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="hero">
-        <h1>🌸 IEP EAS 🌸</h1>
-        <p>Marga Komunitas Solid & Positif</p>
-        <div class="singkatan">
-            📖 IEP = International Education Plane &nbsp;|&nbsp; EAS = Education Astronomi and Ship
+    <!-- Menu titik tiga -->
+    <div class="menu-container">
+        <div class="menu-toggle" id="menuToggle">☰</div>
+        <div class="menu-dropdown" id="menuDropdown">
+            <a href="home.html">🏠 Home</a>
+            <a href="web.html">📝 Daftar</a>
         </div>
     </div>
 
-    <div class="keunggulan">
-        <h2>✨ Keunggulan Marga</h2>
-        <ul class="feature-list">
-            <li>✈️ Pengetahuan pesawat terbang modern & klasik</li>
-            <li>🪐 Eksplorasi planet dan ilmu antariksa</li>
-            <li>🤝 Saling membantu dalam masalah sesama anggota</li>
-            <li>🌟 Komunitas tanpa kerusuhan, penuh positif</li>
-            <li>📚 Diskusi rutin dan sharing ilmu</li>
-        </ul>
-    </div>
-
-    <div class="daftar-btn">
-        <a href="web.html" class="btn-daftar">📝 Daftar Sekarang</a>
-    </div>
-
-    <div class="tentang-card">
-        <div class="tentang-header" id="tentangHeader">
-            <h2>📖 Tentang Kami</h2>
-            <span class="arrow" id="arrow">▼</span>
+    <div class="container">
+        <div class="hero">
+            <h1>🌸 IEP EAS 🌸</h1>
+            <p>Marga Komunitas Solid & Positif</p>
+            <div class="singkatan">
+                📖 IEP = International Education Plane &nbsp;|&nbsp; EAS = Education Astronomi and Ship
+            </div>
         </div>
-        <div class="tentang-content" id="tentangContent">
-            <p><strong>Marga IEP EAS</strong> lahir dari kecintaan terhadap dunia penerbangan (International Education Plane) dan eksplorasi antariksa & perkapalan (Education Astronomi and Ship). Kami percaya bahwa pengetahuan dan solidaritas adalah kunci untuk berkembang bersama.</p>
-            <p>Visi kami: menjadi komunitas yang menginspirasi, saling mendukung, dan berkontribusi positif bagi masyarakat luas.</p>
-            <p>Misi kami: menyediakan wadah diskusi yang sehat, membantu anggota yang mengalami kesulitan, serta menjaga nama baik marga dengan integritas.</p>
-            <p>📌 <strong>Motto:</strong> "Bersama kita terbang tinggi, bersama kita jelajah alam semesta."</p>
-            <p>🤝 Bergabunglah dan rasakan kekeluargaan yang hangat!</p>
+
+        <div class="keunggulan">
+            <h2>✨ Keunggulan Marga</h2>
+            <ul class="feature-list">
+                <li>✈️ Pengetahuan pesawat terbang modern & klasik</li>
+                <li>🪐 Eksplorasi planet dan ilmu antariksa</li>
+                <li>🤝 Saling membantu dalam masalah sesama anggota</li>
+                <li>🌟 Komunitas tanpa kerusuhan, penuh positif</li>
+                <li>📚 Diskusi rutin dan sharing ilmu</li>
+            </ul>
         </div>
+
+        <div class="daftar-btn">
+            <a href="web.html" class="btn-daftar">📝 Daftar Sekarang</a>
+        </div>
+
+        <div class="tentang-card">
+            <div class="tentang-header" id="tentangHeader">
+                <h2>📖 Tentang Kami</h2>
+                <span class="arrow" id="arrow">▼</span>
+            </div>
+            <div class="tentang-content" id="tentangContent">
+                <p><strong>Marga IEP EAS</strong> lahir dari kecintaan terhadap dunia penerbangan (International Education Plane) dan eksplorasi antariksa & perkapalan (Education Astronomi and Ship). Kami percaya bahwa pengetahuan dan solidaritas adalah kunci untuk berkembang bersama.</p>
+                <p>Visi kami: menjadi komunitas yang menginspirasi, saling mendukung, dan berkontribusi positif bagi masyarakat luas.</p>
+                <p>Misi kami: menyediakan wadah diskusi yang sehat, membantu anggota yang mengalami kesulitan, serta menjaga nama baik marga dengan integritas.</p>
+                <p>📌 <strong>Motto:</strong> "Bersama kita terbang tinggi, bersama kita jelajah alam semesta."</p>
+                <p>🤝 Bergabunglah dan rasakan kekeluargaan yang hangat!</p>
+            </div>
+        </div>
+
+        <div class="credit">©IEPEAS</div>
     </div>
 
-    <div class="credit">© made with love</div>
-</div>
+    <script>
+        // Menu dropdown toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const menuDropdown = document.getElementById('menuDropdown');
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuDropdown.classList.toggle('show');
+        });
+        // Tutup dropdown jika klik di luar
+        document.addEventListener('click', function(event) {
+            if (!menuToggle.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.classList.remove('show');
+            }
+        });
 
-<script>
-    const header = document.getElementById('tentangHeader');
-    const content = document.getElementById('tentangContent');
-    const arrow = document.getElementById('arrow');
+        // Tentang Kami slide down
+        const header = document.getElementById('tentangHeader');
+        const content = document.getElementById('tentangContent');
+        const arrow = document.getElementById('arrow');
 
-    header.addEventListener('click', () => {
-        content.classList.toggle('show');
-        arrow.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
-    });
-</script>
+        header.addEventListener('click', () => {
+            content.classList.toggle('show');
+            arrow.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+    </script>
 </body>
 </html>
