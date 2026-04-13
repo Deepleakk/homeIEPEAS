@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Marga IEP EAS</title>
+    <title>Home - Marga IEPEAS</title>
     <style>
         * {
             margin: 0;
@@ -13,13 +13,11 @@
 
         body {
             min-height: 100vh;
-            /* Background gradien ruang angkasa gelap kebiruan */
             background: linear-gradient(145deg, #0a0f1c 0%, #0f172a 40%, #1e293b 100%);
             font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
             color: #e2e8f0;
         }
 
-        /* Menu titik tiga */
         .menu-container {
             position: fixed;
             top: 20px;
@@ -83,7 +81,6 @@
             padding: 60px 20px;
         }
 
-        /* Hero */
         .hero {
             text-align: center;
             margin-bottom: 50px;
@@ -92,11 +89,8 @@
             font-size: 56px;
             letter-spacing: 2px;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, #a78bfa, #60a5fa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 8px rgba(96,165,250,0.3);
+            color: white;  /* warna putih solid, tidak gradien */
+            text-shadow: 0 0 8px rgba(0,0,0,0.5);
         }
         .hero p {
             font-size: 1.2rem;
@@ -122,7 +116,6 @@
             gap: 6px;
         }
 
-        /* Keunggulan Marga */
         .keunggulan {
             text-align: center;
             margin-bottom: 40px;
@@ -157,7 +150,6 @@
             font-size: 1.2rem;
         }
 
-        /* Tombol Daftar */
         .daftar-btn {
             text-align: center;
             margin: 40px 0 20px;
@@ -181,7 +173,6 @@
             transform: scale(1.02);
         }
 
-        /* Teks kecil peraturan */
         .peraturan-kecil {
             text-align: center;
             font-size: 0.75rem;
@@ -190,7 +181,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* Tentang Kami - judul tengah, isi biasa */
         .tentang-section {
             text-align: center;
             margin: 30px 0 20px;
@@ -215,7 +205,6 @@
             margin-bottom: 15px;
         }
 
-        /* Credit */
         .credit {
             text-align: center;
             font-size: 8px;
@@ -240,7 +229,6 @@
     </style>
 </head>
 <body>
-    <!-- Menu titik tiga -->
     <div class="menu-container">
         <div class="menu-toggle" id="menuToggle">☰</div>
         <div class="menu-dropdown" id="menuDropdown">
@@ -251,7 +239,7 @@
 
     <div class="container">
         <div class="hero">
-            <h1>🌸 IEP EAS 🌸</h1>
+            <h1>🌸 IEPEAS 🌸</h1>
             <p>Marga Komunitas Solid & Positif</p>
             <div class="singkatan">
                 <span>✈️ IEP : International Education Plane</span>
@@ -274,27 +262,24 @@
             <a href="web.html" class="btn-daftar">📝 Daftar Sekarang</a>
         </div>
 
-        <!-- Teks kecil peraturan -->
         <div class="peraturan-kecil">
             "Kami menjunjung nilai kesopanan, etika, dan adab, untuk kamu yang mau join diharapkan untuk mematuhi peraturan yang ada"
         </div>
 
-        <!-- Tentang Kami (judul di tengah, isi) -->
         <div class="tentang-section">
             <h2>📖 Tentang Kami</h2>
             <div class="tentang-content">
-                <p><strong>Marga IEP EAS</strong> lahir dari kecintaan terhadap dunia penerbangan (International Education Plane) dan eksplorasi antariksa & perkapalan (Education Astronomi and Ship). Kami percaya bahwa pengetahuan dan solidaritas adalah kunci untuk berkembang bersama.</p>
+                <p><strong>Marga IEPEAS</strong> lahir dari kecintaan terhadap dunia penerbangan (International Education Plane) dan eksplorasi antariksa & perkapalan (Education Astronomi and Ship). Kami percaya bahwa pengetahuan dan solidaritas adalah kunci untuk berkembang bersama.</p>
                 <p>Visi kami: menjadi komunitas yang menginspirasi, saling mendukung, dan berkontribusi positif bagi masyarakat luas. Misi kami: menyediakan wadah diskusi yang sehat, membantu anggota yang mengalami kesulitan, serta menjaga nama baik marga dengan integritas.</p>
                 <p>📌 <strong>Motto:</strong> "Bersama kita terbang tinggi, bersama kita jelajah alam semesta."</p>
                 <p>🤝 Bergabunglah dan rasakan kekeluargaan yang hangat!</p>
             </div>
         </div>
 
-        <div class="credit">© IEPEAS</div>
+        <div class="credit">©IEPEAS</div>
     </div>
 
     <script>
-        // Menu dropdown toggle
         const menuToggle = document.getElementById('menuToggle');
         const menuDropdown = document.getElementById('menuDropdown');
         menuToggle.addEventListener('click', (e) => {
