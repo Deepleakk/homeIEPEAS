@@ -17,7 +17,7 @@
             color: #e2e8f0;
             overflow-x: hidden;
         }
-        /* Tombol titik tiga (kecil) */
+        /* Menu titik tiga */
         .menu-container {
             position: fixed;
             top: 20px;
@@ -44,7 +44,7 @@
             color: white;
             transform: scale(1.05);
         }
-        /* DROPDOWN FULL SCREEN - item di ATAS, font 25px */
+        /* Dropdown full screen */
         .menu-dropdown {
             position: fixed;
             top: 0;
@@ -97,7 +97,7 @@
             transform: rotate(90deg);
             color: #ffb347;
         }
-        /* Konten utama */
+        /* Konten home */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -343,7 +343,6 @@
         <div class="credit">©IEPEAS</div>
     </div>
     <script>
-        // Easter egg
         const title = document.getElementById('iepeasTitle');
         function createFallingEmoji(emoji, xPos) {
             const el = document.createElement('div');
@@ -364,7 +363,6 @@
                 setTimeout(() => createFallingEmoji(randomEmoji, randomX), Math.random() * 400);
             }
         });
-        // Dropdown menu
         const menuToggle = document.getElementById('menuToggle');
         const menuDropdown = document.getElementById('menuDropdown');
         const menuClose = document.getElementById('menuClose');
