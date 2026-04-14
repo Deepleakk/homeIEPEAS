@@ -10,14 +10,12 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             min-height: 100vh;
             background: linear-gradient(145deg, #0a0f1c 0%, #0f172a 40%, #1e293b 100%);
             font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
             color: #e2e8f0;
         }
-
         .menu-container {
             position: fixed;
             top: 20px;
@@ -27,7 +25,7 @@
         .menu-toggle {
             font-size: 32px;
             cursor: pointer;
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30,41,59,0.8);
             backdrop-filter: blur(4px);
             width: 48px;
             height: 48px;
@@ -46,7 +44,7 @@
             position: absolute;
             top: 55px;
             left: 0;
-            background: rgba(15, 25, 45, 0.95);
+            background: rgba(15,25,45,0.95);
             backdrop-filter: blur(8px);
             border-radius: 20px;
             padding: 10px 0;
@@ -74,36 +72,31 @@
             background: #3b82f6;
             color: white;
         }
-
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 80px 20px;
             text-align: center;
         }
-
         h1 {
             font-size: 48px;
             color: white;
             text-shadow: 0 0 8px rgba(0,0,0,0.5);
             margin-bottom: 16px;
         }
-
         .sub {
             font-size: 1.1rem;
             opacity: 0.8;
             margin-bottom: 50px;
         }
-
         .menu-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
             justify-content: center;
         }
-
         .menu-card {
-            background: rgba(30, 41, 59, 0.4);
+            background: rgba(30,41,59,0.4);
             backdrop-filter: blur(8px);
             border-radius: 40px;
             padding: 40px 30px;
@@ -113,6 +106,7 @@
             color: #e2e8f0;
             border: 1px solid rgba(59,130,246,0.3);
             transition: transform 0.2s, background 0.2s;
+            cursor: pointer;
         }
         .menu-card:hover {
             transform: translateY(-8px);
@@ -130,23 +124,26 @@
         .menu-desc {
             font-size: 0.9rem;
             opacity: 0.8;
+            margin-bottom: 15px;
         }
-
+        .status-badge {
+            display: inline-block;
+            background: rgba(0,0,0,0.5);
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            font-weight: normal;
+            color: #a78bfa;
+        }
         .credit {
             text-align: center;
             font-size: 8px;
             opacity: 0.5;
             margin-top: 80px;
         }
-
         @media (max-width: 650px) {
-            h1 {
-                font-size: 36px;
-            }
-            .menu-card {
-                width: 100%;
-                padding: 30px;
-            }
+            h1 { font-size: 36px; }
+            .menu-card { width: 100%; padding: 30px; }
         }
     </style>
 </head>
@@ -164,24 +161,61 @@
     <div class="container">
         <h1>💡 Galeri Pengetahuan</h1>
         <div class="sub">Pilih kategori pengetahuan di bawah ini</div>
-
         <div class="menu-grid">
-            <a href="information/astro/astro.html" class="menu-card">
+            <div class="menu-card" id="astroCard">
                 <div class="menu-icon">🌌</div>
                 <div class="menu-title">Pengetahuan Astronomi</div>
                 <div class="menu-desc">Planet, bintang, galaksi, dan misteri luar angkasa</div>
-            </a>
-            <a href="information/plane/plane.html" class="menu-card">
+                <div class="status-badge" id="astroStatus">🔍 Mengecek...</div>
+            </div>
+            <div class="menu-card" id="planeCard">
                 <div class="menu-icon">✈️</div>
                 <div class="menu-title">Pengetahuan Pesawat</div>
                 <div class="menu-desc">Jenis pesawat, teknologi penerbangan, dan fakta unik</div>
-            </a>
+                <div class="status-badge" id="planeStatus">🔍 Mengecek...</div>
+            </div>
         </div>
-
         <div class="credit">©IEPEAS</div>
     </div>
 
     <script>
+        async function getFactsCount(url, statusElement) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    statusElement.textContent = '❌ Folder tidak ditemukan';
+                    statusElement.style.color = '#f87171';
+                    return;
+                }
+                const text = await response.text();
+                const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
+                const count = lines.length;
+                if (count === 0) {
+                    statusElement.textContent = '⚠️ Belum ada fakta';
+                    statusElement.style.color = '#facc15';
+                } else {
+                    statusElement.textContent = `✅ ${count} fakta tersedia`;
+                    statusElement.style.color = '#4ade80';
+                }
+            } catch (error) {
+                statusElement.textContent = '❌ Gagal baca';
+                statusElement.style.color = '#f87171';
+            }
+        }
+
+        // Pengecekan file teks (benar di folder information/...)
+        getFactsCount('information/astro/astro-facts.txt', document.getElementById('astroStatus'));
+        getFactsCount('information/plane/plane-facts.txt', document.getElementById('planeStatus'));
+
+        // Redirect ke file HTML di ROOT (bukan di folder information)
+        document.getElementById('astroCard').addEventListener('click', () => {
+            window.location.href = 'astro.html';
+        });
+        document.getElementById('planeCard').addEventListener('click', () => {
+            window.location.href = 'plane.html';
+        });
+
+        // Menu dropdown
         const menuToggle = document.getElementById('menuToggle');
         const menuDropdown = document.getElementById('menuDropdown');
         menuToggle.addEventListener('click', (e) => {
