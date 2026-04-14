@@ -2,65 +2,101 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Private Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>YT Music Clone</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; }
-        .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); }
-        .active-tab { border-bottom: 3px solid white; color: white; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body { font-family: 'Roboto', sans-serif; background-color: #000000; color: white; -webkit-tap-highlight-color: transparent; }
+        .yt-shadow { shadow-[0_4px_12px_rgba(0,0,0,0.5)] }
+        input[type="range"] { accent-color: #f00; cursor: pointer; } /* Merah khas YT */
+        .active-tab { color: white; border-bottom: 2px solid white; }
+        /* Kebersihan scrollbar */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
-<body class="flex flex-col items-center min-h-screen text-white p-4">
+<body class="flex flex-col min-h-screen pb-32">
 
-    <div class="w-full max-w-md mb-6 flex gap-2">
-        <input type="text" id="search-input" placeholder="Cari lagu di YouTube..." class="flex-1 bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-zinc-700 transition">
-        <button onclick="searchMusic()" class="bg-white text-black px-6 py-3 rounded-2xl font-bold hover:scale-105 active:scale-95 transition">Cari</button>
-    </div>
-
-    <div class="w-full max-w-md flex justify-around mb-6 text-zinc-500 font-bold text-sm uppercase tracking-wider">
-        <button id="tab-online" onclick="switchTab('online')" class="pb-2 active-tab">Streaming</button>
-        <button id="tab-offline" onclick="switchTab('offline')" class="pb-2">Offline Library</button>
-    </div>
-
-    <div id="player-container" class="w-full max-w-md p-8 rounded-[2.5rem] glass shadow-2xl mb-6">
-        <div class="relative aspect-square mb-6 rounded-3xl overflow-hidden shadow-2xl">
-            <img id="cover-art" src="https://via.placeholder.com/400x400/222/555?text=Music" class="w-full h-full object-cover">
+    <header class="sticky top-0 z-40 bg-black/95 backdrop-blur-sm p-4 border-b border-zinc-800 yt-shadow">
+        <div class="flex items-center gap-4 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#f00" viewBox="0 0 256 256"><path d="M224,128a96,96,0,1,1-96-96A96,96,0,0,1,224,128Z" opacity="0.2"></path><path d="M232,128a104,104,0,1,1-104-104A104,104,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88,88,0,0,0,216,128Zm-106.31-31.14a11.12,11.12,0,0,1,1.15,1.2l40,48a8,8,0,0,1-1.15,11.33,8.23,8.23,0,0,1-5.09,1.81,8,8,0,0,1-6.24-3L101.07,112.1a8,8,0,1,1,12.48-10Z"></path></svg>
+            <h1 class="text-2xl font-bold tracking-tight">Music</h1>
         </div>
-        <div class="text-center mb-6">
-            <h1 id="song-title" class="text-xl font-extrabold truncate italic">Pilih Lagu...</h1>
-            <p id="artist-name" class="text-zinc-500 text-sm">Artist</p>
+        <div class="flex gap-2">
+            <input type="text" id="search-input" placeholder="Cari lagu, artis, album..." class="flex-1 bg-zinc-900 border border-zinc-800 rounded-full px-5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-600 transition">
+            <button onclick="searchMusic()" class="bg-zinc-800 text-white px-5 py-2.5 rounded-full text-sm font-medium active:scale-95 transition">Cari</button>
+        </div>
+    </header>
+
+    <nav class="flex justify-around bg-black border-b border-zinc-800 text-zinc-400 font-medium text-sm tracking-wide">
+        <button id="tab-online" onclick="switchTab('online')" class="py-3 px-4 active-tab">Beranda</button>
+        <button id="tab-offline" onclick="switchTab('offline')" class="py-3 px-4">Koleksi Offline</button>
+    </div>
+
+    <main id="list-container" class="flex-1 p-4 space-y-1 overflow-y-auto"></main>
+
+    <footer id="player-bar" class="fixed bottom-0 left-0 right-0 z-50 bg-zinc-900 border-t border-zinc-800 p-3 transform translate-y-full transition-transform duration-300 ease-out yt-shadow cursor-pointer" onclick="handlePlayerClick(event)">
+        <div class="absolute top-0 left-0 right-0 h-0.5 bg-zinc-700">
+            <div id="progress-bar" class="h-full bg-white w-0 transition-all duration-100 linear"></div>
         </div>
         
-        <div class="mb-6">
-            <input type="range" id="seek-slider" class="w-full h-1.5 bg-zinc-800 rounded-full appearance-none cursor-pointer" value="0">
-            <div class="flex justify-between mt-2 text-[10px] font-mono text-zinc-600">
-                <span id="current-time">00:00</span>
-                <span id="duration">00:00</span>
+        <div class="flex items-center gap-3">
+            <img id="cover-art" src="https://via.placeholder.com/150/222/555?text=Min" class="w-12 h-12 rounded bg-zinc-800 object-cover">
+            <div class="flex-1 min-w-0">
+                <h4 id="song-title" class="font-medium text-sm truncate">Judul Lagu</h4>
+                <p id="artist-name" class="text-xs text-zinc-400 truncate">Nama Artis</p>
+            </div>
+            
+            <div class="flex items-center gap-1">
+                <button onclick="downloadSong(event)" id="dl-btn" class="p-2 text-zinc-400 hover:text-white transition" title="Simpan Offline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V40a8,8,0,0,0-16,0v84.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"></path></svg>
+                </button>
+                <button onclick="togglePlay(event)" id="play-btn" class="p-2 text-white active:scale-90 transition">
+                    <svg id="play-icon" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M240,128a15.89,15.89,0,0,1-8.16,13.93l-176,101A15.91,15.91,0,0,1,32,229V27a15.91,15.91,0,0,1,23.84-13.93l176,101A15.89,15.89,0,0,1,240,128Z"></path></svg>
+                </button>
+                <button onclick="nextSong(event)" class="p-2 text-white active:scale-90 transition">
+                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M208,40V216a8,8,0,0,1-16,0V139.31L109.66,221.66A8,8,0,0,1,96,216V139.31L21.66,213.66A8,8,0,0,1,8,208V48a8,8,0,0,1,13.66-5.66L96,116.69V40a8,8,0,0,1,16,0v76.69l82.34-82.35A8,8,0,0,1,208,40Z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <div id="player-modal" class="fixed inset-0 z-50 bg-black p-6 flex flex-col transform translate-y-full transition-transform duration-300 ease-out overflow-hidden hidden">
+        <header class="flex justify-between items-center mb-8 text-zinc-400">
+            <button onclick="closePlayerModal()" class="p-2 active:scale-90"><svg width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg></button>
+            <span class="text-xs font-bold tracking-widest uppercase">Memutar</span>
+            <div class="w-10"></div> </header>
+
+        <div class="flex-1 flex flex-col items-center justify-center gap-10">
+            <img id="modal-cover-art" src="https://via.placeholder.com/400" class="w-full aspect-square rounded-2xl object-cover shadow-2xlring-1 ring-white/10">
+            
+            <div class="text-center w-full px-4">
+                <h1 id="modal-song-title" class="text-2xl font-bold truncate mb-1">Judul Lagu</h1>
+                <p id="modal-artist-name" class="text-zinc-400 text-base truncate">Nama Artis</p>
             </div>
         </div>
 
-        <div class="flex items-center justify-between">
-            <button onclick="downloadSong()" id="dl-btn" class="p-3 text-zinc-600 hover:text-white transition">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V40a8,8,0,0,0-16,0v84.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"></path></svg>
+        <div class="w-full mt-10 mb-6">
+            <input type="range" id="modal-seek-slider" class="w-full h-1.5 bg-zinc-800 rounded-full appearance-none cursor-pointer mb-2" value="0">
+            <div class="flex justify-between text-[11px] font-mono text-zinc-500">
+                <span id="modal-current-time">00:00</span>
+                <span id="modal-duration">00:00</span>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-12 mb-10">
+            <button onclick="prevSong(event)" class="text-white active:scale-90 transition"><svg width="40" height="40" fill="currentColor" viewBox="0 0 256 256"><path d="M208,40V216a8,8,0,0,1-13.66,5.66L112,139.31V216a8,8,0,0,1-13.66,5.66l-80-80a8,8,0,0,1,0-11.32l80-80A8,8,0,0,1,112,56v76.69l82.34-82.35A8,8,0,0,1,208,40Z"></path></svg></button>
+            <button onclick="togglePlay(event)" id="modal-play-btn" class="w-20 h-20 flex items-center justify-center rounded-full bg-white text-black active:scale-95 transition shadow-2xl">
+                <svg id="modal-play-icon" width="36" height="36" fill="currentColor" viewBox="0 0 256 256"><path d="M240,128a15.89,15.89,0,0,1-8.16,13.93l-176,101A15.91,15.91,0,0,1,32,229V27a15.91,15.91,0,0,1,23.84-13.93l176,101A15.89,15.89,0,0,1,240,128Z"></path></svg>
             </button>
-            <button onclick="togglePlay()" id="play-btn" class="w-16 h-16 flex items-center justify-center rounded-full bg-white text-black shadow-xl active:scale-90 transition">
-                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M240,128a15.89,15.89,0,0,1-8.16,13.93l-176,101A15.91,15.91,0,0,1,32,229V27a15.91,15.91,0,0,1,23.84-13.93l176,101A15.89,15.89,0,0,1,240,128Z"></path></svg>
-            </button>
-            <button onclick="nextSong()" class="p-3 text-zinc-600 hover:text-white transition">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M208,40V216a8,8,0,0,1-16,0V139.31L109.66,221.66A8,8,0,0,1,96,216V139.31L21.66,213.66A8,8,0,0,1,8,208V48a8,8,0,0,1,13.66-5.66L96,116.69V40a8,8,0,0,1,16,0v76.69l82.34-82.35A8,8,0,0,1,208,40Z"></path></svg>
-            </button>
+            <button onclick="nextSong(event)" class="text-white active:scale-90 transition"><svg width="40" height="40" fill="currentColor" viewBox="0 0 256 256"><path d="M208,40V216a8,8,0,0,1-16,0V139.31L109.66,221.66A8,8,0,0,1,96,216V139.31L21.66,213.66A8,8,0,0,1,8,208V48a8,8,0,0,1,13.66-5.66L96,116.69V40a8,8,0,0,1,16,0v76.69l82.34-82.35A8,8,0,0,1,208,40Z"></path></svg></button>
         </div>
     </div>
-
-    <div id="list-container" class="w-full max-w-md space-y-3 pb-20"></div>
 
     <audio id="audio-player"></audio>
 
     <script>
-        // Setup Database Offline
         const db = new Dexie("MusicDB");
         db.version(1).stores({ songs: "id, title, artist, cover, blob" });
 
@@ -68,35 +104,70 @@
         let currentPlaylist = [];
         let currentIndex = 0;
         let currentTab = 'online';
+        let isModalOpen = false;
 
-        // Search Music via Piped
+        const instances = ['https://api-piped.mha.fi', 'https://pipedapi.drgns.space', 'https://pipedapi.astreapp.ca'];
+        let currentInstance = instances[0];
+
+        // Init: Load some default songs (Mix)
+        async function initHome() {
+            document.getElementById('list-container').innerHTML = "<p class='text-center py-10 text-zinc-600 animate-pulse'>Memuat Mix...</p>";
+            // Pake ID Playlist contoh buat Home
+            await fetchPlaylist('RDCLAK5uy_n9F9v7Y9v_S_X7Y_S_X7Y_S_X7Y');
+        }
+
         async function searchMusic() {
             const query = document.getElementById('search-input').value;
             if(!query) return;
             switchTab('online');
-            document.getElementById('list-container').innerHTML = "<p class='text-center text-zinc-500'>Mencari lagu...</p>";
+            document.getElementById('list-container').innerHTML = "<p class='text-center py-10 text-zinc-600 animate-pulse'>Mencari...</p>";
             
+            let success = false;
+            for (let base of instances) {
+                try {
+                    const res = await fetch(`${base}/search?q=${encodeURIComponent(query)}&filter=music_songs`);
+                    if (!res.ok) continue;
+                    const data = await res.json();
+                    currentPlaylist = data.streams;
+                    currentInstance = base;
+                    renderList(currentPlaylist);
+                    success = true;
+                    break;
+                } catch (e) {}
+            }
+            if(!success) alert("Server sibuk. Coba lagi nanti.");
+        }
+
+        async function fetchPlaylist(id) {
             try {
-                const res = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(query)}&filter=music_songs`);
+                const res = await fetch(`${currentInstance}/playlists/${id}`);
                 const data = await res.json();
-                currentPlaylist = data.streams;
+                currentPlaylist = data.relatedStreams;
                 renderList(currentPlaylist);
-            } catch (err) { alert("Gagal mencari lagu."); }
+            } catch (e) { document.getElementById('list-container').innerHTML = "<p class='text-center text-zinc-700'>Gagal memuat home.</p>"; }
         }
 
         function renderList(list) {
             const container = document.getElementById('list-container');
             container.innerHTML = "";
+            if (list.length === 0) container.innerHTML = "<p class='text-center py-10 text-zinc-600'>Kosong.</p>";
+            
             list.forEach((song, index) => {
                 const div = document.createElement('div');
-                div.className = "flex items-center gap-4 p-3 glass rounded-2xl cursor-pointer hover:bg-white/5 transition";
+                div.className = "flex items-center gap-4 py-2 px-1 rounded-lg cursor-pointer hover:bg-zinc-900 active:bg-zinc-800 transition";
                 div.onclick = () => playSong(index);
                 div.innerHTML = `
-                    <img src="${song.thumbnail || song.cover}" class="w-12 h-12 rounded-lg object-cover">
-                    <div class="flex-1 truncate">
-                        <h4 class="font-bold text-sm truncate">${song.title}</h4>
-                        <p class="text-xs text-zinc-500">${song.uploaderName || song.artist}</p>
+                    <div class="relative w-12 h-12 flex-shrink-0">
+                        <img src="${song.thumbnail || song.cover}" class="w-full h-full rounded object-cover bg-zinc-800">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition rounded">
+                            <svg width="20" height="20" fill="white" viewBox="0 0 256 256"><path d="M240,128a15.89,15.89,0,0,1-8.16,13.93l-176,101A15.91,15.91,0,0,1,32,229V27a15.91,15.91,0,0,1,23.84-13.93l176,101A15.89,15.89,0,0,1,240,128Z"></path></svg>
+                        </div>
                     </div>
+                    <div class="flex-1 truncate">
+                        <h4 class="font-medium text-sm truncate text-white">${song.title}</h4>
+                        <p class="text-xs text-zinc-400 truncate">${song.uploaderName || song.artist}</p>
+                    </div>
+                    <button class="p-2 text-zinc-600"><svg width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M128,144a16,16,0,1,0-16-16A16,16,0,0,0,128,144Zm0,48a16,16,0,1,0-16-16A16,16,0,0,0,128,192Zm0-144a16,16,0,1,0-16-16A16,16,0,0,0,128,48Z"></path></svg></button>
                 `;
                 container.appendChild(div);
             });
@@ -105,87 +176,151 @@
         async function playSong(index) {
             currentIndex = index;
             const song = currentPlaylist[index];
-            document.getElementById('song-title').innerText = song.title;
-            document.getElementById('artist-name').innerText = song.uploaderName || song.artist;
-            document.getElementById('cover-art').src = song.thumbnail || song.cover;
+            
+            // Update Mini Player & Modal UI
+            updatePlayerUI(song);
+            showPlayerBar();
 
             if (currentTab === 'offline') {
-                const url = URL.createObjectURL(song.blob);
-                audio.src = url;
+                audio.src = URL.createObjectURL(song.blob);
             } else {
-                const streamRes = await fetch(`https://pipedapi.kavin.rocks/streams/${song.url.split('v=')[1]}`);
-                const streamData = await streamRes.json();
-                const stream = streamData.audioStreams.find(s => s.format === 'M4A') || streamData.audioStreams[0];
-                audio.src = stream.url;
+                try {
+                    const res = await fetch(`${currentInstance}/streams/${song.url.split('v=')[1]}`);
+                    const data = await res.json();
+                    const stream = data.audioStreams.find(s => s.format === 'M4A') || data.audioStreams[0];
+                    audio.src = stream.url;
+                } catch (e) { alert("Gagal memutar."); nextSong(new Event('e')); return; }
             }
             audio.play();
-            updateMediaSession(song);
+            updateMedia(song);
         }
 
-        async function downloadSong() {
+        function updatePlayerUI(song) {
+            const title = song.title;
+            const artist = song.uploaderName || song.artist;
+            const cover = song.thumbnail || song.cover;
+
+            document.getElementById('song-title').innerText = title;
+            document.getElementById('artist-name').innerText = artist;
+            document.getElementById('cover-art').src = cover;
+
+            document.getElementById('modal-song-title').innerText = title;
+            document.getElementById('modal-artist-name').innerText = artist;
+            document.getElementById('modal-cover-art').src = cover;
+        }
+
+        function showPlayerBar() {
+            const bar = document.getElementById('player-bar');
+            bar.classList.remove('translate-y-full');
+            bar.classList.add('translate-y-0');
+        }
+
+        function handlePlayerClick(e) {
+            // Jangan buka modal kalau yang diklik tombol control
+            if (e.target.closest('button')) return;
+            openPlayerModal();
+        }
+
+        function openPlayerModal() {
+            const modal = document.getElementById('player-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('translate-y-full');
+                modal.classList.add('translate-y-0');
+            }, 10);
+            isModalOpen = true;
+        }
+
+        function closePlayerModal() {
+            const modal = document.getElementById('player-modal');
+            modal.classList.remove('translate-y-0');
+            modal.classList.add('translate-y-full');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            isModalOpen = false;
+        }
+
+        function togglePlay(e) {
+            if(e) e.stopPropagation();
+            if (audio.paused) audio.play(); else audio.pause();
+        }
+
+        function updateIcon() {
+            const icons = [document.getElementById('play-icon'), document.getElementById('modal-play-icon')];
+            const svgPlay = '<path d="M240,128a15.89,15.89,0,0,1-8.16,13.93l-176,101A15.91,15.91,0,0,1,32,229V27a15.91,15.91,0,0,1,23.84-13.93l176,101A15.89,15.89,0,0,1,240,128Z"></path>';
+            const svgPause = '<path d="M208,48V208a16,16,0,0,1-32,0V48a16,16,0,0,1,32,0ZM80,32A16,16,0,0,0,64,48V208a16,16,0,0,0,32,0V48A16,16,0,0,0,80,32Z"></path>';
+            
+            icons.forEach(icon => icon.innerHTML = audio.paused ? svgPlay : svgPause);
+        }
+
+        async function downloadSong(e) {
+            if(e) e.stopPropagation();
             const song = currentPlaylist[currentIndex];
             if(!song || currentTab === 'offline') return;
-            
+            const btn = document.getElementById('dl-btn');
             try {
-                document.getElementById('dl-btn').classList.add('animate-pulse');
+                btn.classList.add('animate-pulse', 'text-white');
                 const res = await fetch(audio.src);
                 const blob = await res.blob();
-                
                 await db.songs.put({
-                    id: song.url,
-                    title: song.title,
-                    artist: song.uploaderName,
-                    cover: song.thumbnail,
-                    blob: blob
+                    id: song.url, title: song.title, artist: song.uploaderName, 
+                    cover: song.thumbnail, blob: blob
                 });
-                alert("Berhasil disimpan offline! Cek tab Offline Library.");
-                document.getElementById('dl-btn').classList.remove('animate-pulse');
-            } catch (err) { alert("Download gagal."); }
+                alert("Tersimpan Offline!");
+            } catch (e) { alert("Gagal simpan."); }
+            btn.classList.remove('animate-pulse', 'text-white');
         }
 
         async function switchTab(tab) {
             currentTab = tab;
-            document.getElementById('tab-online').className = tab === 'online' ? "pb-2 active-tab" : "pb-2";
-            document.getElementById('tab-offline').className = tab === 'offline' ? "pb-2 active-tab" : "pb-2";
-            
-            if (tab === 'offline') {
+            document.getElementById('tab-online').className = tab === 'online' ? "py-3 px-4 active-tab" : "py-3 px-4";
+            document.getElementById('tab-offline').className = tab === 'offline' ? "py-3 px-4 active-tab" : "py-3 px-4";
+            if(tab === 'offline') {
                 currentPlaylist = await db.songs.toArray();
                 renderList(currentPlaylist);
             } else {
-                document.getElementById('list-container').innerHTML = "<p class='text-center text-zinc-500'>Cari lagu untuk streaming...</p>";
+                initHome();
             }
         }
 
-        // Standard Player Logic
-        function togglePlay() { audio.paused ? audio.play() : audio.pause(); updateIcon(); }
-        function nextSong() { currentIndex = (currentIndex + 1) % currentPlaylist.length; playSong(currentIndex); }
-        function updateIcon() { document.getElementById('play-icon').innerHTML = audio.paused ? '<path d="M240,128a15.89,15.89,0,0,1-8.16,13.93l-176,101A15.91,15.91,0,0,1,32,229V27a15.91,15.91,0,0,1,23.84-13.93l176,101A15.89,15.89,0,0,1,240,128Z"></path>' : '<path d="M208,48V208a16,16,0,0,1-32,0V48a16,16,0,0,1,32,0ZM80,32A16,16,0,0,0,64,48V208a16,16,0,0,0,32,0V48A16,16,0,0,0,80,32Z"></path>'; }
-        
+        function nextSong(e) { if(e) e.stopPropagation(); currentIndex = (currentIndex + 1) % currentPlaylist.length; playSong(currentIndex); }
+        function prevSong(e) { if(e) e.stopPropagation(); currentIndex = (currentIndex - 1 + currentPlaylist.length) % currentPlaylist.length; playSong(currentIndex); }
+
+        // Progress Logic
         audio.ontimeupdate = () => {
             const perc = (audio.currentTime / audio.duration) * 100;
-            document.getElementById('seek-slider').value = perc || 0;
-            document.getElementById('current-time').innerText = formatTime(audio.currentTime);
-            document.getElementById('duration').innerText = formatTime(audio.duration);
+            // Update mini bar
+            document.getElementById('progress-bar').style.width = perc + '%';
+            // Update modal seek
+            if (isModalOpen) {
+                document.getElementById('modal-seek-slider').value = perc || 0;
+                document.getElementById('modal-current-time').innerText = formatTime(audio.currentTime);
+                document.getElementById('modal-duration').innerText = formatTime(audio.duration);
+            }
+        };
+        
+        document.getElementById('modal-seek-slider').oninput = (e) => {
+            audio.currentTime = (e.target.value / 100) * audio.duration;
         };
 
-        function formatTime(s) { const m=Math.floor(s/60); const sec=Math.floor(s%60); return `${m}:${sec<10?'0'+sec:sec}`; }
-        
-        function updateMediaSession(song) {
+        function formatTime(s) { if(isNaN(s)) return "00:00"; const m=Math.floor(s/60); const sec=Math.floor(s%60); return `${m}:${sec < 10 ? '0'+sec : sec}`; }
+
+        function updateMedia(song) {
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: song.title,
-                    artist: song.uploaderName || song.artist,
+                    title: song.title, artist: song.uploaderName || song.artist,
                     artwork: [{ src: song.thumbnail || song.cover, sizes: '512x512', type: 'image/png' }]
                 });
                 navigator.mediaSession.setActionHandler('play', () => audio.play());
                 navigator.mediaSession.setActionHandler('pause', () => audio.pause());
-                navigator.mediaSession.setActionHandler('nexttrack', () => nextSong());
+                navigator.mediaSession.setActionHandler('nexttrack', () => nextSong(new Event('e')));
+                navigator.mediaSession.setActionHandler('previoustrack', () => prevSong(new Event('e')));
             }
         }
 
         audio.onplay = updateIcon;
         audio.onpause = updateIcon;
-        audio.onended = nextSong;
+        audio.onended = () => nextSong(new Event('e'));
+
+        initHome(); // Start with mix
     </script>
 </body>
-</html>
