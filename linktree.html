@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linktree - Marga IEPEAS</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             min-height: 100vh;
             background: linear-gradient(145deg, #0a0f1c 0%, #0f172a 40%, #1e293b 100%);
             font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
             color: #e2e8f0;
         }
-        /* Menu sama seperti di atas */
+        /* Menu titik tiga (kecil) */
         .menu-container {
             position: fixed;
             top: 20px;
@@ -32,8 +36,14 @@
             border-radius: 50%;
             transition: 0.2s;
             border: 1px solid rgba(59,130,246,0.6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-        .menu-toggle:hover { background: #3b82f6; transform: scale(1.05); }
+        .menu-toggle:hover {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.05);
+        }
+        /* DROPDOWN FULL SCREEN - item di ATAS, font 25px */
         .menu-dropdown {
             position: fixed;
             top: 0;
@@ -46,48 +56,62 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 30px;
+            gap: 15px;
+            padding-top: 120px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
         }
-        .menu-dropdown.show { opacity: 1; visibility: visible; }
+        .menu-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+        }
         .menu-dropdown a {
-            font-size: 2.5rem;
+            font-size: 25px;
             font-weight: bold;
             color: white;
             text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 60px;
-            background: rgba(255,255,255,0.05);
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
+            padding: 8px 20px;
+            background: none;
+            border: none;
+            transition: 0.2s;
         }
-        .menu-dropdown a:hover { background: #3b82f6; transform: scale(1.05); }
+        .menu-dropdown a:hover {
+            color: #3b82f6;
+            transform: scale(1.05);
+        }
         .menu-close {
             position: absolute;
             top: 30px;
             right: 30px;
-            font-size: 48px;
+            font-size: 32px;
             cursor: pointer;
             color: white;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: none;
+            border: none;
+            transition: 0.2s;
+            z-index: 101;
         }
-        .menu-close:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
+        .menu-close:hover {
+            transform: rotate(90deg);
+            color: #ffb347;
+        }
+        /* Konten linktree */
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 80px 20px;
             text-align: center;
         }
-        .profile h1 { font-size: 48px; color: white; margin-bottom: 10px; }
-        .profile p { font-size: 1rem; opacity: 0.8; }
+        .profile h1 {
+            font-size: 48px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .profile p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
         .link-card {
             background: rgba(30, 41, 59, 0.4);
             backdrop-filter: blur(8px);
@@ -103,9 +127,21 @@
             font-weight: 500;
             transition: 0.2s;
         }
-        .link-card:hover { background: #3b82f6; transform: scale(1.02); }
-        .credit { text-align: center; font-size: 8px; opacity: 0.5; margin-top: 60px; }
-        @media (max-width: 650px) { .profile h1 { font-size: 36px; } }
+        .link-card:hover {
+            background: #3b82f6;
+            transform: scale(1.02);
+        }
+        .credit {
+            text-align: center;
+            font-size: 8px;
+            opacity: 0.5;
+            margin-top: 60px;
+        }
+        @media (max-width: 650px) {
+            .profile h1 { font-size: 36px; }
+            .menu-dropdown a { font-size: 22px; }
+            .menu-dropdown { padding-top: 100px; }
+        }
     </style>
 </head>
 <body>
@@ -119,7 +155,10 @@
         </div>
     </div>
     <div class="container">
-        <div class="profile"><h1>🌸 IEPEAS 🌸</h1><p>Marga Komunitas Edukasi & Solidaritas</p></div>
+        <div class="profile">
+            <h1>🌸 IEPEAS 🌸</h1>
+            <p>Marga Komunitas Edukasi & Solidaritas</p>
+        </div>
         <a href="https://www.tiktok.com/@marga.iepeas.ofc?_r=1&_t=ZS-95VbnRi6CnN" class="link-card" target="_blank">🎵 TikTok Marga</a>
         <a href="https://www.tiktok.com/@storyy_rama02?_r=1&_t=ZS-95VbljsXv9B" class="link-card" target="_blank">👤 TikTok Owner</a>
         <a href="https://chat.whatsapp.com/GMp0cUpgDjp3xJXsl7CojT?mode=gi_t" class="link-card" target="_blank">💬 Grup WhatsApp</a>
