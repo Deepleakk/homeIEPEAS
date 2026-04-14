@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Pendaftaran - IEPEAS</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             min-height: 100vh;
             background: linear-gradient(145deg, #0a0f1c 0%, #0f172a 40%, #1e293b 100%);
@@ -16,7 +20,7 @@
             justify-content: center;
             padding: 40px 20px;
         }
-        /* Menu sama seperti di home */
+        /* Tombol titik tiga (kecil) */
         .menu-container {
             position: fixed;
             top: 20px;
@@ -36,8 +40,14 @@
             border-radius: 50%;
             transition: 0.2s;
             border: 1px solid rgba(59,130,246,0.6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-        .menu-toggle:hover { background: #3b82f6; transform: scale(1.05); }
+        .menu-toggle:hover {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.05);
+        }
+        /* DROPDOWN FULL SCREEN - item di ATAS, font 25px */
         .menu-dropdown {
             position: fixed;
             top: 0;
@@ -50,42 +60,47 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 30px;
+            gap: 15px;
+            padding-top: 120px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
         }
-        .menu-dropdown.show { opacity: 1; visibility: visible; }
+        .menu-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+        }
         .menu-dropdown a {
-            font-size: 2.5rem;
+            font-size: 25px;
             font-weight: bold;
             color: white;
             text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 60px;
-            background: rgba(255,255,255,0.05);
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
+            padding: 8px 20px;
+            background: none;
+            border: none;
+            transition: 0.2s;
         }
-        .menu-dropdown a:hover { background: #3b82f6; transform: scale(1.05); }
+        .menu-dropdown a:hover {
+            color: #3b82f6;
+            transform: scale(1.05);
+        }
         .menu-close {
             position: absolute;
             top: 30px;
             right: 30px;
-            font-size: 48px;
+            font-size: 32px;
             cursor: pointer;
             color: white;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: none;
+            border: none;
+            transition: 0.2s;
+            z-index: 101;
         }
-        .menu-close:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
-
-        /* Card form ukuran normal (tidak kegedean) */
+        .menu-close:hover {
+            transform: rotate(90deg);
+            color: #ffb347;
+        }
+        /* Card form ukuran normal */
         .glass-card {
             max-width: 950px;
             width: 100%;
@@ -95,10 +110,10 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 40px 45px;
         }
-        /* Form styles (sama seperti sebelumnya) */
+        /* Form styles */
         .form-group { margin-bottom: 24px; width: 100%; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #f0f4fa; }
-        .form-group input, .form-group textarea { width: 100%; background: rgba(255,255,255,0.95); border: none; border-radius: 30px; padding: 14px 20px; font-size: 16px; }
+        .form-group input, .form-group textarea { width: 100%; background: rgba(255,255,255,0.95); border: none; border-radius: 30px; padding: 14px 20px; font-size: 16px; color: #1e2f2f; }
         .form-group textarea { min-height: 100px; resize: vertical; }
         .vertical-option { margin-bottom: 24px; }
         .option-label { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: #f0f4fa; }
@@ -116,7 +131,7 @@
         hr { margin: 28px 0 20px; border-color: rgba(255,255,255,0.15); }
         .footer-text { text-align: center; font-size: 13px; color: #cbd5e6; }
         .credit { text-align: center; font-size: 8px; opacity: 0.6; margin-top: 20px; color: #cbd5e6; }
-        @media (max-width: 650px) { .glass-card { padding: 25px 20px; } h1 { font-size: 28px; } h2 { font-size: 1.4rem; } }
+        @media (max-width: 650px) { .glass-card { padding: 25px 20px; } h1 { font-size: 28px; } h2 { font-size: 1.4rem; } .menu-dropdown a { font-size: 22px; } .menu-dropdown { padding-top: 100px; } }
     </style>
 </head>
 <body>
@@ -134,11 +149,11 @@
         <div class="sub">Sebelum bergabung, isilah form dengan jujur dan jelas.<br>Lakukan semua menjadi penilaian awal.</div>
         <form id="registerForm" action="#" method="post">
             <h2>1. Identitas</h2>
-            <div class="form-group"><label>Nama asli :</label><input type="text" id="nama_asli" placeholder="Contoh: Rama" required></div>
-            <div class="form-group"><label>Umur :</label><input type="number" id="umur" placeholder="15" required></div>
+            <div class="form-group"><label>Nama asli :</label><input type="text" id="nama_asli" placeholder="Contoh: Sato Ichiro" required></div>
+            <div class="form-group"><label>Umur :</label><input type="number" id="umur" placeholder="20" required></div>
             <div class="form-group"><label>Asal kota :</label><input type="text" id="asal_kota" placeholder="Tokyo, Osaka, Kyoto, dll" required></div>
             <h2>2. Riwayat Komunitas</h2>
-            <div class="form-group"><label>Apakah kamu punya komunitas/marga lain?</label><textarea id="riwayat_komunitas" placeholder="Jika tidak ada tulis Tidak / Jika ada tulis IYA beserta nama marga tersebut" rows="3" required></textarea></div>
+            <div class="form-group"><label>Apakah kamu punya komunitas/marga lain?</label><textarea id="riwayat_komunitas" placeholder="Jika tidak ada, tulis: Tidak" rows="3" required></textarea></div>
             <h2>3. Tujuan Bergabung</h2>
             <div class="form-group"><label>Apa alasan dan tujuan kamu masuk Marga IEP EAS?</label><textarea id="tujuan" placeholder="Tuliskan alasan dengan jelas..." rows="4" required></textarea></div>
             <h2>4. Pengetahuan Dasar</h2>
