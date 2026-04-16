@@ -33,20 +33,14 @@
     </div>
 
     <script src="rain.js"></script>
-    
     <script>
-        // Logika Menu Dropdown
         const menuToggle = document.getElementById('menuToggle');
         const menuDropdown = document.getElementById('menuDropdown');
         const menuClose = document.getElementById('menuClose');
 
-        menuToggle.addEventListener('click', () => menuDropdown.classList.add('show'));
-        menuClose.addEventListener('click', () => menuDropdown.classList.remove('show'));
-        
-        // Tutup menu kalau klik di luar area link
-        menuDropdown.addEventListener('click', (e) => { 
-            if (e.target === menuDropdown) menuDropdown.classList.remove('show'); 
-        });
+        menuToggle.onclick = () => menuDropdown.classList.add('show');
+        menuClose.onclick = () => menuDropdown.classList.remove('show');
+        menuDropdown.onclick = (e) => { if (e.target === menuDropdown) menuDropdown.classList.remove('show'); };
     </script>
 </body>
 </html>
