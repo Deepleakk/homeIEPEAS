@@ -16,6 +16,48 @@
             font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
             color: #e2e8f0;
             overflow-x: hidden;
+            position: relative;
+        }
+        /* Animasi meteor di background */
+        .meteor-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .meteor {
+            position: absolute;
+            top: -50px;
+            background: linear-gradient(135deg, rgba(255,255,200,0.9), rgba(255,180,80,0.3));
+            width: 2px;
+            height: 80px;
+            border-radius: 50%;
+            transform: rotate(25deg);
+            box-shadow: 0 0 8px 2px rgba(255,200,100,0.6);
+            opacity: 0;
+            animation: meteorFall linear infinite;
+        }
+        @keyframes meteorFall {
+            0% {
+                transform: translateX(0) translateY(0) rotate(25deg);
+                opacity: 1;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(-400px) translateY(600px) rotate(25deg);
+                opacity: 0;
+            }
+        }
+        /* Konten utama di atas meteor */
+        .menu-container, .container {
+            position: relative;
+            z-index: 2;
         }
         /* Menu titik tiga */
         .menu-container {
@@ -251,7 +293,7 @@
             opacity: 0.5;
             margin-top: 60px;
         }
-        /* Easter egg */
+        /* Easter egg (manual) */
         .falling-emoji {
             position: fixed;
             pointer-events: none;
@@ -274,6 +316,9 @@
     </style>
 </head>
 <body>
+    <!-- Animasi meteor -->
+    <div class="meteor-container" id="meteorContainer"></div>
+
     <div class="menu-container">
         <div class="menu-toggle" id="menuToggle">☰</div>
         <div class="menu-dropdown" id="menuDropdown">
@@ -283,6 +328,7 @@
             <a href="linktree.html">🔗 Linktree</a>
         </div>
     </div>
+
     <div class="container">
         <div class="hero">
             <h1 id="iepeasTitle">🌸 IEPEAS 🌸</h1>
@@ -342,7 +388,32 @@
         </div>
         <div class="credit">©IEPEAS</div>
     </div>
+
     <script>
+        // Membuat meteor secara dinamis
+        function createMeteors() {
+            const container = document.getElementById('meteorContainer');
+            const meteorCount = 25; // jumlah meteor
+            for (let i = 0; i < meteorCount; i++) {
+                const meteor = document.createElement('div');
+                meteor.classList.add('meteor');
+                // variasi ukuran dan durasi
+                const size = 2 + Math.random() * 3; // lebar 2-5px
+                const height = 50 + Math.random() * 100; // panjang ekor
+                const duration = 1.5 + Math.random() * 4; // 1.5 - 5.5 detik
+                const delay = Math.random() * 15; // delay acak
+                const startX = Math.random() * window.innerWidth;
+                meteor.style.width = size + 'px';
+                meteor.style.height = height + 'px';
+                meteor.style.animationDuration = duration + 's';
+                meteor.style.animationDelay = delay + 's';
+                meteor.style.left = startX + 'px';
+                container.appendChild(meteor);
+            }
+        }
+        createMeteors();
+
+        // Easter egg
         const title = document.getElementById('iepeasTitle');
         function createFallingEmoji(emoji, xPos) {
             const el = document.createElement('div');
@@ -363,6 +434,8 @@
                 setTimeout(() => createFallingEmoji(randomEmoji, randomX), Math.random() * 400);
             }
         });
+
+        // Dropdown menu
         const menuToggle = document.getElementById('menuToggle');
         const menuDropdown = document.getElementById('menuDropdown');
         const menuClose = document.getElementById('menuClose');
