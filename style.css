@@ -1,0 +1,78 @@
+/* --- AKAR UTAMA (Ganti di sini, semua berubah) --- */
+:root {
+    --bg-main: linear-gradient(145deg, #0a0f1c 0%, #0f172a 40%, #1e293b 100%);
+    --accent-blue: #3b82f6;
+    --accent-orange: #ffb347;
+    --glass-card: rgba(30, 41, 59, 0.4);
+    --form-bg: rgba(15, 23, 42, 0.85);
+    --text-white: #e2e8f0;
+}
+
+/* --- DASAR --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    min-height: 100vh; 
+    background: var(--bg-main); 
+    font-family: 'Segoe UI', 'Poppins', sans-serif; 
+    color: var(--text-white); 
+    overflow-x: hidden; 
+}
+
+/* --- MENU UNIVERSAL (Sama di semua halaman) --- */
+.menu-container { position: fixed; top: 20px; left: 20px; z-index: 100; }
+.menu-toggle { 
+    font-size: 28px; cursor: pointer; background: rgba(30, 41, 59, 0.9); 
+    width: 50px; height: 50px; display: flex; align-items: center; 
+    justify-content: center; border-radius: 50%; border: 1px solid var(--accent-blue); 
+}
+.menu-dropdown { 
+    position: fixed; inset: 0; background: rgba(10, 15, 28, 0.98); 
+    backdrop-filter: blur(20px); z-index: 99; display: flex; 
+    flex-direction: column; align-items: center; gap: 15px; 
+    padding-top: 120px; opacity: 0; visibility: hidden; transition: 0.3s; 
+}
+.menu-dropdown.show { opacity: 1; visibility: visible; }
+.menu-dropdown a { font-size: 25px; font-weight: bold; color: white; text-decoration: none; transition: 0.2s; }
+.menu-dropdown a:hover { color: var(--accent-blue); transform: scale(1.05); }
+.menu-close { position: absolute; top: 30px; right: 30px; font-size: 32px; cursor: pointer; color: white; }
+
+/* --- KONTEN UMUM --- */
+.container { max-width: 900px; margin: 0 auto; padding: 60px 20px; position: relative; z-index: 2; }
+h1 { color: white; text-align: center; }
+
+/* --- STYLE KHUSUS HOME --- */
+.singkatan { background: var(--glass-card); display: inline-flex; gap: 20px; padding: 10px 24px; border-radius: 60px; border: 1px solid rgba(59,130,246,0.3); }
+.feature-list, .peraturan-container, .tentang-content { 
+    background: var(--glass-card); backdrop-filter: blur(4px); 
+    border-radius: 24px; padding: 25px; border: 1px solid rgba(59,130,246,0.2); margin-top: 20px;
+}
+
+/* --- STYLE KHUSUS FORM (WEB.HTML) --- */
+.glass-card { 
+    max-width: 950px; width: 100%; background: var(--form-bg); 
+    backdrop-filter: blur(12px); border-radius: 40px; padding: 40px; border: 1px solid rgba(255, 255, 255, 0.15); 
+}
+.form-group input, .form-group textarea { 
+    width: 100%; background: white; border: none; border-radius: 30px; padding: 14px 20px; color: #1e2f2f; margin-top: 5px;
+}
+button[type="submit"] { 
+    background: #d45a2b; color: white; border: none; padding: 16px; 
+    width: 100%; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 20px; 
+}
+
+/* --- STYLE KHUSUS LINKTREE --- */
+.container-linktree { max-width: 600px; margin: 0 auto; padding: 80px 20px; text-align: center; }
+.link-card { 
+    background: var(--glass-card); backdrop-filter: blur(8px); border-radius: 60px; 
+    padding: 16px 24px; margin-bottom: 18px; display: flex; align-items: center; 
+    justify-content: center; gap: 12px; text-decoration: none; color: white; transition: 0.2s; 
+}
+.link-card:hover { background: var(--accent-blue); transform: scale(1.02); }
+
+/* --- FOOTER & CREDIT --- */
+.credit { text-align: center; font-size: 8px; opacity: 0.5; margin-top: 60px; }
+
+@media (max-width: 650px) {
+    h1 { font-size: 28px; }
+    .glass-card { padding: 20px; }
+                 }
