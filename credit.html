@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit - Marga IEPEAS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .credit-container {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 20px;
+        }
+        .credit-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 40px 45px;
+            margin-bottom: 30px;
+        }
+        .credit-card h1 {
+            font-size: 42px;
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .credit-card .sub {
+            text-align: center;
+            color: #a78bfa;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        .credit-card h2 {
+            font-size: 1.6rem;
+            margin: 25px 0 15px 0;
+            border-left: 6px solid #ffb347;
+            padding-left: 18px;
+            color: #f0f4fa;
+        }
+        .profile-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .profile-header .icon {
+            font-size: 48px;
+            background: rgba(59,130,246,0.2);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid #ffb347;
+        }
+        .profile-header h3 {
+            font-size: 1.5rem;
+            color: #ffecb3;
+        }
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 16px;
+            border-radius: 40px;
+            transition: 0.2s;
+            flex-wrap: wrap;
+        }
+        .contact-item:hover {
+            background: #3b82f6;
+            transform: translateX(5px);
+        }
+        .contact-item .wa-icon {
+            font-size: 20px;
+        }
+        .contact-item .phone {
+            flex: 1;
+        }
+        .contact-item a {
+            color: #cbd5e6;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .contact-item .name {
+            color: #a78bfa;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .contact-item .role {
+            font-size: 0.7rem;
+            background: rgba(255,180,71,0.3);
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+        .contact-item:hover a,
+        .contact-item:hover .name,
+        .contact-item:hover .role {
+            color: white;
+        }
+        .contributor-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .contributor-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 20px;
+            text-align: center;
+            width: 200px;
+            border: 1px solid rgba(59,130,246,0.2);
+            transition: 0.2s;
+        }
+        .contributor-card:hover {
+            transform: translateY(-5px);
+            background: rgba(59,130,246,0.2);
+        }
+        .contributor-card .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .contributor-card .name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .contributor-card .role {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .tech-badge {
+            background: rgba(59,130,246,0.3);
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(59,130,246,0.4);
+        }
+        .special-thanks {
+            background: rgba(255, 180, 71, 0.15);
+            border-left: 4px solid #ffb347;
+            padding: 15px 20px;
+            border-radius: 20px;
+            margin: 25px 0 10px;
+            text-align: center;
+        }
+        .special-thanks p {
+            margin-bottom: 0;
+            font-size: 1rem;
+            color: #ffecb3;
+        }
+        .credit-footer {
+            text-align: center;
+            font-size: 8px;
+            opacity: 0.5;
+            margin-top: 40px;
+        }
+        @media (max-width: 650px) {
+            .credit-card { padding: 25px 20px; }
+            .credit-card h1 { font-size: 32px; }
+            .credit-card h2 { font-size: 1.4rem; }
+            .contributor-card { width: 160px; }
+            .profile-header { justify-content: center; text-align: center; }
+            .contact-item { flex-direction: column; align-items: flex-start; }
+            .contact-item .name { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="menu-toggle" id="menuToggle">☰</div>
+        <div class="menu-dropdown" id="menuDropdown">
+            <div class="menu-close" id="menuClose">✕</div>
+            <a href="home.html">🏠 Home</a>
+            <a href="web.html">📝 Daftar</a>
+            <a href="linktree.html">🔗 Linktree</a>
+            <a href="credit.html">🎖️ Credit</a>
+        </div>
+    </div>
+
+    <div class="credit-container">
+        <div class="credit-card">
+            <h1>🎖️ Credit & Kontributor</h1>
+            <div class="sub">Terima kasih kepada semua pihak yang telah membantu</div>
+
+            <!-- PENDIRI -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="icon">👑</div>
+                    <h3>Pendiri IEPEAS</h3>
+                </div>
+                <div class="contact-list">
+                    <div class="contact-item">
+                        <span class="wa-icon">📱</span>
+                        <a href="https://wa.me/6289515560507" class="phone" target="_blank">+62 895-1556-0507</a>
+                        <span class="name">rama</span>
+                        <span class="role">Owner</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN IEPEAS -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="icon">👥</div>
+                    <h3>Admin IEPEAS</h3>
+                </div>
+                <div class="contact-list">
+                    <div class="contact-item">
+                        <span class="wa-icon">📱</span>
+                        <a href="https://wa.me/6285715372790" class="phone" target="_blank">+62 857-1537-2790</a>
+                        <span class="name">nazneen</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="wa-icon">📱</span>
+                        <a href="https://wa.me/62895398972020" class="phone" target="_blank">+62 895-3989-72020</a>
+                        <span class="name">revv</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="wa-icon">📱</span>
+                        <a href="https://wa.me/6282379849016" class="phone" target="_blank">+62 823-7984-9016</a>
+                        <span class="name">riski</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="wa-icon">📱</span>
+                        <a href="https://wa.me/6287843071054" class="phone" target="_blank">+62 878-4307-1054</a>
+                        <span class="name">kusuma</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="wa-icon">📱</span>
+                        <a href="https://wa.me/6281460127110" class="phone" target="_blank">+62 814-6012-7110</a>
+                        <span class="name">dian</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="wa-icon">📱</span>
+                        <a href="https://wa.me/6288906142026" class="phone" target="_blank">+62 889-0614-2026</a>
+                        <span class="name">faiz</span>
+                        <span class="role">Webdev</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>👥 Tim Pengembang</h2>
+            <div class="contributor-grid">
+                <div class="contributor-card">
+                    <div class="icon">👑</div>
+                    <div class="name">rama</div>
+                    <div class="role">Founder & Owner</div>
+                </div>
+                <div class="contributor-card">
+                    <div class="icon">🤖</div>
+                    <div class="name">DeepSeek AI</div>
+                    <div class="role">Coding Assistant</div>
+                </div>
+                <div class="contributor-card">
+                    <div class="icon">🎨</div>
+                    <div class="name">Marga IEPEAS</div>
+                    <div class="role">Ide & Konsep</div>
+                </div>
+                <div class="contributor-card">
+                    <div class="icon">💻</div>
+                    <div class="name">faiz</div>
+                    <div class="role">Webdev</div>
+                </div>
+            </div>
+
+            <h2>💻 Teknologi yang Digunakan</h2>
+            <div class="tech-list">
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">GitHub Pages</span>
+                <span class="tech-badge">WhatsApp API</span>
+            </div>
+
+            <h2>📱 Sumber Daya</h2>
+            <p>• Ikon & emoji dari sistem operasi dan Unicode<br>
+            • Inspirasi desain dari komunitas space & aviation<br>
+            • Background gradient & efek blur dari CSS modern</p>
+
+            <h2>🙏 Ucapan Terima Kasih</h2>
+            <p>Terima kasih kepada seluruh anggota Marga IEPEAS yang telah mendukung dan berkontribusi dalam membangun komunitas yang solid, positif, dan edukatif. Mari terus belajar dan berkembang bersama! 🚀</p>
+
+            <div class="special-thanks">
+                <p>✨ Terima kasih juga kepada <strong>DeepSeek</strong> yang telah mendekor web ini ✨</p>
+            </div>
+        </div>
+        <div class="credit-footer">©IEPEAS - Berbagi Pengetahuan, Membangun Solidaritas</div>
+    </div>
+
+    <script src="rain.js"></script>
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const menuDropdown = document.getElementById('menuDropdown');
+        const menuClose = document.getElementById('menuClose');
+        menuToggle.addEventListener('click', () => menuDropdown.classList.add('show'));
+        menuClose.addEventListener('click', () => menuDropdown.classList.remove('show'));
+        menuDropdown.addEventListener('click', (e) => { if (e.target === menuDropdown) menuDropdown.classList.remove('show'); });
+    </script>
+</body>
+                      </html>
