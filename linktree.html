@@ -6,12 +6,15 @@
     <title>Linktree - Marga IEPEAS</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Tambahan untuk linktree */
+        /* Tambahan khusus linktree */
         .linktree-container {
             max-width: 600px;
             margin: 80px auto;
             padding: 20px;
+        }
+        .profile {
             text-align: center;
+            margin-bottom: 40px;
         }
         .profile h1 {
             font-size: 48px;
@@ -23,8 +26,8 @@
             opacity: 0.8;
         }
         .link-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
             border-radius: 60px;
             padding: 16px 24px;
             margin-bottom: 18px;
@@ -36,6 +39,7 @@
             color: #e2e8f0;
             font-weight: 500;
             transition: 0.2s;
+            border: 1px solid rgba(59,130,246,0.3);
         }
         .link-card:hover {
             background: #3b82f6;
@@ -47,8 +51,18 @@
             opacity: 0.5;
             margin-top: 60px;
         }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
         @media (max-width: 650px) {
             .profile h1 { font-size: 36px; }
+            .linktree-container { margin: 60px auto; }
         }
     </style>
 </head>
@@ -66,22 +80,40 @@
     </div>
 
     <div class="linktree-container">
-        <div class="profile">
+        <div class="profile scroll-reveal">
             <h1>🌸 IEPEAS 🌸</h1>
             <p>Marga Komunitas Edukasi & Solidaritas</p>
         </div>
-        <a href="https://www.tiktok.com/@marga.iepeas.ofc?_r=1&_t=ZS-95VbnRi6CnN" class="link-card" target="_blank">🎵 TikTok Marga</a>
-        <a href="https://www.tiktok.com/@storyy_rama02?_r=1&_t=ZS-95VbljsXv9B" class="link-card" target="_blank">👤 TikTok Owner</a>
-        <a href="https://chat.whatsapp.com/GMp0cUpgDjp3xJXsl7CojT?mode=gi_t" class="link-card" target="_blank">💬 Grup WhatsApp</a>
-        <a href="https://github.com/Deepleakk" class="link-card" target="_blank">🐙 GitHub</a>
-        <a href="web.html" class="link-card">📝 Form Pendaftaran</a>
-        <div class="credit">©IEPEAS</div>
+
+        <a href="https://www.tiktok.com/@marga.iepeas.ofc?_r=1&_t=ZS-95VbnRi6CnN" class="link-card scroll-reveal" target="_blank">🎵 TikTok Marga</a>
+        <a href="https://www.tiktok.com/@storyy_rama02?_r=1&_t=ZS-95VbljsXv9B" class="link-card scroll-reveal" target="_blank">👤 TikTok Owner</a>
+        <a href="https://chat.whatsapp.com/GMp0cUpgDjp3xJXsl7CojT?mode=gi_t" class="link-card scroll-reveal" target="_blank">💬 Grup WhatsApp</a>
+        <a href="https://github.com/Deepleakk" class="link-card scroll-reveal" target="_blank">🐙 GitHub</a>
+        <a href="web.html" class="link-card scroll-reveal">📝 Form Pendaftaran</a>
+
+        <div class="credit scroll-reveal">©IEPEAS</div>
     </div>
 
+    <!-- Background nebula -->
+    <script src="nebula.js"></script>
+    
     <!-- Efek hujan -->
     <script src="rain.js"></script>
 
     <script>
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+        function checkReveal() {
+            for (let el of revealElements) {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 80) {
+                    el.classList.add('revealed');
+                }
+            }
+        }
+        window.addEventListener('scroll', checkReveal);
+        checkReveal();
+
         // Menu dropdown
         const menuToggle = document.getElementById('menuToggle');
         const menuDropdown = document.getElementById('menuDropdown');
