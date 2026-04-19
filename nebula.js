@@ -1,4 +1,4 @@
-// nebula.js - Background nebula + bintang super cepat (5-7.5) + black hole
+// nebula.js - Background nebula bergerak + bintang super cepat + black hole
 (function() {
     const canvas = document.createElement('canvas');
     canvas.id = 'nebulaCanvas';
@@ -28,14 +28,14 @@
 
     function initStars() {
         stars = [];
-        const starCount = Math.floor(width * height / 3000);
+        const starCount = Math.floor(width * height / 2500);
         for (let i = 0; i < starCount; i++) {
             stars.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
                 radius: Math.random() * 2.5 + 0.5,
                 alpha: Math.random() * 0.6 + 0.2,
-                speedY: Math.random() * 2.5 + 5,    // 5 - 7.5 pixel per frame
+                speedY: Math.random() * 2.5 + 5,
                 speedX: (Math.random() - 0.5) * 1.5,
                 blink: Math.random() > 0.7,
                 blinkSpeed: Math.random() * 0.03 + 0.01
@@ -44,30 +44,56 @@
     }
 
     function drawNebula() {
-        const grad = ctx.createLinearGradient(
-            width * (0.3 + Math.sin(time * 0.1) * 0.05),
-            height * (0.2 + Math.cos(time * 0.07) * 0.05),
-            width * (0.7 + Math.sin(time * 0.08) * 0.05),
-            height * (0.8 + Math.cos(time * 0.06) * 0.05)
+        // Nebula 1 (biru keunguan) bergerak
+        const grad1 = ctx.createRadialGradient(
+            width * (0.3 + Math.sin(time * 0.05) * 0.1),
+            height * (0.2 + Math.cos(time * 0.04) * 0.1),
+            50,
+            width * 0.4,
+            height * 0.3,
+            width * 0.5
         );
-        grad.addColorStop(0, '#020617');
-        grad.addColorStop(0.3, '#0c1445');
-        grad.addColorStop(0.6, '#1e1b4b');
-        grad.addColorStop(1, '#020617');
-        ctx.fillStyle = grad;
+        grad1.addColorStop(0, 'rgba(80, 60, 180, 0.15)');
+        grad1.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad1;
         ctx.fillRect(0, 0, width, height);
 
+        // Nebula 2 (merah keunguan) bergerak
         const grad2 = ctx.createRadialGradient(
-            width * 0.5 + Math.sin(time * 0.05) * 50,
-            height * 0.4 + Math.cos(time * 0.04) * 30,
-            50,
-            width * 0.5,
-            height * 0.5,
+            width * (0.7 + Math.cos(time * 0.03) * 0.1),
+            height * (0.6 + Math.sin(time * 0.02) * 0.1),
+            80,
+            width * 0.7,
+            height * 0.6,
             width * 0.6
         );
-        grad2.addColorStop(0, 'rgba(59, 130, 246, 0.1)');
+        grad2.addColorStop(0, 'rgba(180, 60, 100, 0.12)');
         grad2.addColorStop(1, 'rgba(0, 0, 0, 0)');
         ctx.fillStyle = grad2;
+        ctx.fillRect(0, 0, width, height);
+
+        // Nebula 3 (biru muda) bergerak lambat
+        const grad3 = ctx.createLinearGradient(
+            width * (0.5 + Math.sin(time * 0.02) * 0.15),
+            0,
+            width * (0.5 + Math.cos(time * 0.01) * 0.15),
+            height
+        );
+        grad3.addColorStop(0, 'rgba(30, 100, 200, 0.08)');
+        grad3.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad3;
+        ctx.fillRect(0, 0, width, height);
+
+        // Background dasar gelap
+        ctx.fillStyle = '#020617';
+        ctx.fillRect(0, 0, width, height);
+        
+        // Overlay nebula di atas background
+        ctx.fillStyle = grad1;
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = grad2;
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = grad3;
         ctx.fillRect(0, 0, width, height);
     }
 
@@ -93,65 +119,64 @@
     }
 
     function drawBlackHole() {
-        const x = width - 80;
-        const y = 80;
-        const baseRadius = 30;
+        const x = width - 100;
+        const y = 100;
+        const baseRadius = 35;
         
-        // Efek denyut black hole
-        const pulse = Math.sin(time * 3) * 0.1 + 0.9;
+        const pulse = Math.sin(time * 2) * 0.1 + 0.9;
         const radius = baseRadius * pulse;
         
-        // Lingkaran akresi (cincin berputar)
+        // Cincin akresi luar
         for (let i = 0; i < 3; i++) {
-            const ringRadius = radius + 12 + i * 8;
+            const ringRadius = radius + 15 + i * 10;
             ctx.beginPath();
             ctx.arc(x, y, ringRadius, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(255, 100, 50, ${0.2 - i * 0.05})`;
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = `rgba(255, 100, 50, ${0.15 - i * 0.03})`;
+            ctx.lineWidth = 1.5;
             ctx.stroke();
         }
         
-        // Cincin akresi yang berputar (partial arc)
+        // Cincin berputar (partial arc)
         for (let r = 0; r < 2; r++) {
-            const ringRadius = radius + 10 + r * 10;
-            const startAngle = time * 2 + r;
-            const endAngle = startAngle + Math.PI * 1.5;
+            const ringRadius = radius + 12 + r * 12;
+            const startAngle = time * 2.5 + r;
+            const endAngle = startAngle + Math.PI * 1.8;
             ctx.beginPath();
             ctx.arc(x, y, ringRadius, startAngle, endAngle);
             ctx.strokeStyle = `rgba(255, 150, 80, ${0.5 - r * 0.2})`;
-            ctx.lineWidth = 3 - r;
+            ctx.lineWidth = 2.5 - r;
             ctx.stroke();
         }
         
-        // Black hole core (hitam pekat dengan gradien)
-        const blackHoleGrad = ctx.createRadialGradient(x - 5, y - 5, 5, x, y, radius);
+        // Black hole core
+        const blackHoleGrad = ctx.createRadialGradient(x - 8, y - 8, 5, x, y, radius);
         blackHoleGrad.addColorStop(0, '#000000');
-        blackHoleGrad.addColorStop(0.7, '#111111');
-        blackHoleGrad.addColorStop(1, '#2a0a2a');
+        blackHoleGrad.addColorStop(0.6, '#0a0a1a');
+        blackHoleGrad.addColorStop(1, '#1a0a2a');
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fillStyle = blackHoleGrad;
         ctx.fill();
         
-        // Efek gravitasi (lingkaran cahaya tipis di tepi)
+        // Efek gravitasi (lingkaran cahaya tipis)
         ctx.beginPath();
-        ctx.arc(x, y, radius + 2, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(255, 80, 80, ${0.3 + Math.sin(time * 5) * 0.1})`;
+        ctx.arc(x, y, radius + 3, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 100, 80, ${0.3 + Math.sin(time * 4) * 0.1})`;
         ctx.lineWidth = 1.5;
         ctx.stroke();
         
-        // Efek sinar hisap (garis-garis ke arah pusat)
+        // Sinar hisap
         for (let i = 0; i < 8; i++) {
             const angle = i * Math.PI * 2 / 8 + time;
-            const x1 = x + Math.cos(angle) * (radius + 8);
-            const y1 = y + Math.sin(angle) * (radius + 8);
-            const x2 = x + Math.cos(angle) * (radius + 25);
-            const y2 = y + Math.sin(angle) * (radius + 25);
+            const x1 = x + Math.cos(angle) * (radius + 10);
+            const y1 = y + Math.sin(angle) * (radius + 10);
+            const x2 = x + Math.cos(angle) * (radius + 30);
+            const y2 = y + Math.sin(angle) * (radius + 30);
             ctx.beginPath();
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
-            ctx.strokeStyle = `rgba(255, 150, 80, ${0.2 + Math.sin(time * 5 + i) * 0.1})`;
-            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = `rgba(255, 150, 100, ${0.15 + Math.sin(time * 4 + i) * 0.05})`;
+            ctx.lineWidth = 1.2;
             ctx.stroke();
         }
     }
